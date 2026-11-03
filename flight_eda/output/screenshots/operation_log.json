@@ -1,0 +1,148 @@
+[
+  {
+    "strategy": "HOTDECK",
+    "origin": "all",
+    "carrier": "all",
+    "month": "all",
+    "time_band": "all",
+    "rain": "all",
+    "pressure": "all",
+    "brush": null,
+    "refit": false,
+    "refit_requested": false,
+    "refit_note": "",
+    "n": 327346,
+    "n_before_brush": 327346,
+    "arr_delay_mean": 6.89537675731489,
+    "distance_mean": 1048.3713135336923,
+    "air_time_mean": 150.68646019807787,
+    "original_pressure_missing_pct": 11.04091695026058,
+    "airport_counts": {
+      "EWR": 117127,
+      "JFK": 109079,
+      "LGA": 101140
+    }
+  },
+  {
+    "strategy": "CCA",
+    "origin": "all",
+    "carrier": "all",
+    "month": "all",
+    "time_band": "all",
+    "rain": "all",
+    "pressure": "all",
+    "brush": null,
+    "refit": false,
+    "refit_requested": false,
+    "refit_note": "",
+    "n": 291140,
+    "n_before_brush": 291140,
+    "arr_delay_mean": 4.759624235762863,
+    "distance_mean": 1045.7483513086488,
+    "air_time_mean": 150.16748986741774,
+    "original_pressure_missing_pct": 0.0,
+    "airport_counts": {
+      "EWR": 103461,
+      "JFK": 97731,
+      "LGA": 89948
+    }
+  },
+  {
+    "strategy": "HOTDECK",
+    "origin": "all",
+    "carrier": "all",
+    "month": "all",
+    "time_band": "all",
+    "rain": "rain",
+    "pressure": "missing",
+    "brush": null,
+    "refit": false,
+    "refit_requested": false,
+    "refit_note": "",
+    "n": 11915,
+    "n_before_brush": 11915,
+    "arr_delay_mean": 39.1797733948804,
+    "distance_mean": 1071.6362568191355,
+    "air_time_mean": 156.8109106168695,
+    "original_pressure_missing_pct": 100.0,
+    "airport_counts": {
+      "EWR": 4617,
+      "LGA": 3786,
+      "JFK": 3512
+    }
+  },
+  {
+    "strategy": "HOTDECK",
+    "origin": "all",
+    "carrier": "UA",
+    "month": "all",
+    "time_band": "all",
+    "rain": "all",
+    "pressure": "all",
+    "brush": null,
+    "refit": false,
+    "refit_requested": false,
+    "refit_note": "",
+    "n": 57782,
+    "n_before_brush": 57782,
+    "arr_delay_mean": 3.5580111453393792,
+    "distance_mean": 1531.3213630542384,
+    "air_time_mean": 211.79135370876745,
+    "original_pressure_missing_pct": 11.8774012668305,
+    "airport_counts": {
+      "EWR": 45501,
+      "LGA": 7803,
+      "JFK": 4478
+    }
+  },
+  {
+    "strategy": "HOTDECK",
+    "origin": "all",
+    "carrier": "all",
+    "month": "all",
+    "time_band": "all",
+    "rain": "all",
+    "pressure": "all",
+    "brush": [
+      -4,
+      4,
+      2,
+      8
+    ],
+    "refit": false,
+    "refit_requested": false,
+    "refit_note": "",
+    "n": 47477,
+    "n_before_brush": 327346,
+    "arr_delay_mean": -5.040019377803989,
+    "distance_mean": 2479.0694020262445,
+    "air_time_mean": 331.7118815426417,
+    "original_pressure_missing_pct": 11.394991258925375,
+    "airport_counts": {
+      "JFK": 30262,
+      "EWR": 17215
+    }
+  },
+  {
+    "strategy": "HOTDECK",
+    "origin": "LGA",
+    "carrier": "all",
+    "month": "all",
+    "time_band": "all",
+    "rain": "all",
+    "pressure": "all",
+    "brush": null,
+    "refit": true,
+    "refit_requested": true,
+    "refit_note": "",
+    "n": 101140,
+    "n_before_brush": 101140,
+    "arr_delay_mean": 5.783488234130908,
+    "distance_mean": 784.7561103421001,
+    "air_time_mean": 117.82580581372355,
+    "original_pressure_missing_pct": 11.065849317777339,
+    "airport_counts": {
+      "LGA": 101140
+    }
+  }
+]

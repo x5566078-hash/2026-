@@ -1,0 +1,6 @@
+請使用 nycflights13 的原始 flights 與 weather 資料，產生一份完整的探索式資料分析報表，供課堂作業作為 AI 初版基準。
+以航班為分析單位，依 origin 與 time_hour 將 weather 左連接至 flights。分析 dep_delay、arr_delay、air_time、distance、temp、dewp、humid、wind_speed、precip、visib、pressure；機場、航空公司及月份可作分群資訊。
+報表需包含資料規模與欄位意義、描述統計、缺失比例、主要分布與離群值、變數相關、機場比較、標準化 PCA 的解釋變異及主成分詮釋，並列出限制與後續建議。產生必要圖表與可重跑的程式。
+如需處理缺失，請說明採用的方法。只陳述由實際運算支持的結果，不虛構統計數字，不宣稱因果關係。
+
+執行紀錄說明：這段提示詞是本次 Codex 作業流程中明確設定的初版 EDA 子任務，並非宣稱來自另一個獨立或無前文的 AI 對話。執行時 Codex 已看過作業要求及課堂投影片。先執行 src/baseline.py、產生下列初版輸出並封存，再進行正式缺失診斷。這是前後版本比較，不是盲測或不同模型能力評比。

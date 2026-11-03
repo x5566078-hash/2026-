@@ -1,0 +1,26 @@
+題目 E｜期中口頭報告繳交說明
+更新：2026-11-01
+
+依老師公告，請上傳以下項目：
+
+1. 口頭報告簡報 PDF
+   題目E_手繪混搭_口頭報告簡報.pdf（10 張投影片，約 7 分 20 秒）
+   注意：題目E_手繪混搭_7分鐘口頭講稿.pdf 是講稿，不是要上傳的投影片 PDF。
+
+2. 可重現的 notebook 或程式碼
+   analysis.ipynb 已保留 17 個實際執行的程式儲存格。
+   src/、data/raw/、requirements.txt、reproduce_local.sh 與 README.md 一併提供，方便從原始 CSV 重跑。
+   Colab：把 analysis.ipynb 與完整 ZIP 都上傳到左側檔案區，再按「全部執行」；首格會自動解壓 ZIP。
+   本機：先解壓完整 ZIP、保留相對路徑，以 Python 3.11 安裝 requirements.txt，再開啟 notebook 按 Run All。
+   單獨一個 ipynb 不含約 35 MB 原始 CSV。末格會檢查結果並顯示「重現成功」。
+
+3. 互動成果
+   已發布的 dashboard：https://snazzy-beijinho-a8153e.netlify.app/
+   2026-11-01 檢查網址回應 HTTP 200。可直接將此連結貼到繳交欄位。
+   公告的「或」表示也可選擇至少 5 張篩選／brushing 截圖並逐張說明發現。
+   analysis.ipynb 裡有六個程式實際執行的篩選／框選輸出圖及逐圖說明；這些是分析圖，不宣稱為瀏覽器畫面截圖。
+
+4. 原作業的正式書面報告
+   nycflights_missing_pca_report.pdf（正文 11 頁，附錄 7 頁），供需要同時繳交書面作業時使用。
+
+建議實際上傳時：投影片 PDF、分析 notebook，以及互動 dashboard URL 分別放在老師提供的對應欄位。若系統只允許單一附件，可上傳本 ZIP；若老師要求真實操作畫面，仍須另補瀏覽器截圖。

@@ -1,0 +1,75 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>紐約航班｜缺失值與 PCA 分析</title>
+<style>
+:root{--ink:#173c48;--muted:#5c7480;--teal:#237f8c;--line:#dbe7ea;--bg:#f3f7f8;--orange:#da8c37;--purple:#7d63a8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"PingFang TC","Microsoft JhengHei",Arial,sans-serif}
+header{background:linear-gradient(120deg,#153c48,#1e5661);color:white;padding:34px max(4vw,22px) 38px}
+header .eyebrow{font-size:12px;letter-spacing:2px;color:#a9d8d9;font-weight:700}
+h1{font-size:clamp(25px,2.6vw,36px);line-height:1.3;margin:10px 0}
+header p{max-width:900px;line-height:1.7;color:#e0eff0;margin:8px 0 0;font-size:15px}
+.wrap{max-width:1440px;margin:24px auto;padding:0 22px}
+.panel,.chart,.card{background:white;border:1px solid var(--line);border-radius:12px;box-shadow:0 4px 20px rgba(21,60,72,.035)}
+.panel{padding:20px;margin-bottom:16px}
+.section-heading{margin:0 0 17px;font-size:17px;font-weight:700}
+.controls{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+label{font-size:12px;font-weight:600;color:var(--muted);display:flex;flex-direction:column;gap:7px}
+select{height:40px;border:1px solid #bfd2d7;border-radius:7px;padding:6px 10px;color:var(--ink);background:white;font-size:14px;min-width:0}
+button{cursor:pointer;background:#edf5f5;border:1px solid #b5d1d4;color:#185b67;padding:9px 13px;border-radius:7px;font-size:13px;font-weight:600;transition:background .15s,border-color .15s}
+button:hover{background:#dceced;border-color:#81b1b8}
+button:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.steps{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:16px 0}
+.card{padding:18px 20px;min-height:132px}
+.card span{font-size:12px;color:var(--muted);font-weight:600}
+.card strong{display:block;font-size:clamp(24px,2.1vw,30px);margin-top:13px;font-weight:700;letter-spacing:-.5px}
+.charts{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px}
+.chart{min-width:0;overflow:hidden}
+.chart-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:19px 21px 4px;min-height:86px}
+.chart-head h2{font-size:17px;line-height:1.4;margin:0}
+.chart-head p{font-size:12px;line-height:1.5;color:var(--muted);margin:5px 0 0}
+.chart-legend{display:flex;align-items:center;justify-content:flex-end;gap:13px;flex-wrap:wrap;flex:none;padding-top:3px;font-size:12px;color:var(--muted);font-weight:600}
+.chart-legend span{white-space:nowrap}
+.legend-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.legend-line{display:inline-block;width:14px;height:8px;border-radius:2px;margin-right:5px;vertical-align:middle}
+.ewr,.pc1{background:var(--teal)}.jfk,.pc2{background:var(--orange)}.lga{background:var(--purple)}
+#score,#loading{height:470px}#airport{height:250px}
+.note{font-size:13px;color:var(--muted);line-height:1.7}
+.finding{padding:15px 18px;background:#e6f3f1;border-left:4px solid var(--teal);line-height:1.7;margin:15px 0;font-size:14px}
+.selection{min-height:35px;color:#84541d;font-size:13px;line-height:1.6}
+.bottom{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+table{border-collapse:collapse;width:100%;font-size:13px}
+td,th{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--muted);font-weight:600}
+details{margin-top:14px}summary{cursor:pointer;font-size:14px;font-weight:600}
+footer{margin:25px 2px 34px;font-size:12px;color:var(--muted);line-height:1.8}
+footer a{color:#1b6d79}
+.download{height:40px;background:var(--teal);color:white;border:0}.download:hover{background:#1c6873}
+#busy{padding:22px;color:var(--teal)}
+@media(max-width:1100px){.controls{grid-template-columns:repeat(3,minmax(0,1fr))}.charts{grid-template-columns:1fr}.chart-head{min-height:72px}}
+@media(max-width:700px){.wrap{padding:0 12px}.controls{grid-template-columns:repeat(2,minmax(0,1fr))}.bottom{grid-template-columns:1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.chart-head{display:block}.chart-legend{justify-content:flex-start;margin-top:10px}.card{min-height:114px}#score,#loading{height:410px}}
+@media(max-width:450px){.controls{grid-template-columns:1fr}.cards{gap:8px}.card{padding:14px;min-height:100px}.card strong{font-size:22px}}
+</style><script>/*PLOTLY_LIBRARY*/</script></head><body>
+<header><div class="eyebrow">NYC FLIGHTS 2013 · DATA EXPLORER</div><h1>紐約航班缺失值與 PCA 分析</h1><p>比較缺失值處理策略下的航班組成、抵達延誤與主成分結構。使用篩選與框選查看不同群體，並對照各策略的結果。</p></header>
+<main class="wrap"><div id="busy">載入固定版本資料與模型…</div>
+<section class="panel"><h2 class="section-heading">探索條件</h2><div class="controls">
+<label>缺失處理策略<select id="strategy"><option value="HOTDECK">HOTDECK｜條件式熱卡</option><option value="MEAN">MEAN｜天氣欄平均</option><option value="CCA">CCA｜完整個案</option></select></label>
+<label>出發機場<select id="origin"><option value="all">全部</option><option>EWR</option><option>JFK</option><option>LGA</option></select></label>
+<label>航空公司<select id="carrier"><option value="all">全部</option></select></label>
+<label>月份<select id="month"><option value="all">全年</option></select></label>
+<label>預定出發時段<select id="band"><option value="all">全部</option><option value="night">00–05</option><option value="morning">06–11</option><option value="afternoon">12–17</option><option value="evening">18–23</option></select></label>
+<label>原始降雨紀錄<select id="rain"><option value="all">全部</option><option value="rain">降雨 &gt; 0</option><option value="dry">無雨</option><option value="unknown">未配對／未知</option></select></label>
+<label>原始氣壓<select id="pressure"><option value="all">全部</option><option value="missing">缺失</option><option value="observed">有觀測</option></select></label>
+<label>PCA 座標系<select id="scope"><option value="all">固定全體模型</option><option value="airport">所選機場的 PCA 模型</option></select></label>
+<label>負荷量顯示變數<select id="variables"><option value="all">全部 11 個變數</option><option value="flight">飛行變數</option><option value="weather">天氣變數</option></select></label>
+<label>圖表匯出<button class="download" id="export">下載目前分析圖表</button></label>
+</div><div class="steps"><button data-step="0">1 全體 HOTDECK</button><button data-step="1">2 改成完整個案</button><button data-step="2">3 降雨＋氣壓缺失</button><button data-step="3">4 固定 UA</button><button data-step="4">5 框選長程區域</button><button data-step="5">6 重估 LGA PCA</button></div>
+<p class="note">篩選不會自動重估 PCA。選擇「所選機場的 PCA 模型」時，僅按機場重新估計；未知降雨維持獨立類別，不視為無雨。</p></section>
+<div class="cards"><div class="card"><span>全資料篩選後航班數</span><strong id="n">—</strong></div><div class="card"><span>平均抵達延誤 · 分鐘</span><strong id="delay">—</strong></div><div class="card"><span>平均距離 · 英里</span><strong id="distance">—</strong></div><div class="card"><span>模型 PC1＋PC2 解釋變異</span><strong id="evr">—</strong></div></div>
+<div class="finding" id="finding">先切換策略，檢查樣本數與平均延誤，再觀察 PCA 是否有相同幅度的變化。</div>
+<div class="charts"><section class="chart"><div class="chart-head"><div><h2>航班主成分分布</h2><p id="score-subtitle">固定全體模型 · PC1 × PC2</p></div><div class="chart-legend" aria-label="出發機場圖例"><span><i class="legend-dot ewr"></i>EWR</span><span><i class="legend-dot jfk"></i>JFK</span><span><i class="legend-dot lga"></i>LGA</span></div></div><div id="score"></div></section><section class="chart"><div class="chart-head"><div><h2>主成分係數</h2><p>滑過長條可查看係數與相關負荷量</p></div><div class="chart-legend" aria-label="主成分圖例"><span><i class="legend-line pc1"></i>PC1</span><span><i class="legend-line pc2"></i>PC2</span></div></div><div id="loading"></div></section></div>
+<div class="panel" style="margin-top:14px"><div class="selection" id="selection">拖曳矩形框選分數圖；將滑鼠移到點或負荷量上查看詳細數值。</div><div class="note" id="sample-note"></div></div>
+<div class="bottom"><section class="chart"><div class="chart-head"><div><h2>機場平均抵達延誤</h2><p>目前篩選群體 · 分鐘</p></div></div><div id="airport"></div></section><section class="panel"><h2 class="section-heading">目前群體的機場組成</h2><table><thead><tr><th>機場</th><th>航班數</th><th>平均抵達延誤</th></tr></thead><tbody id="airport-table"></tbody></table><p class="note">機場均值受航空公司、航線與時段組成影響，不宜直接解讀為機場效率。無出發紀錄及其他飛行測量不完整的航班不在 PCA 分析母體。</p></section></div>
+<details class="panel"><summary>資料範圍與分析方法</summary><p class="note">原始資料包含 336,776 筆航班紀錄。排除 8,255 筆無出發紀錄及 1,175 筆其他飛行測量不完整紀錄後，PCA 分析母體為 327,346 班；完整個案策略保留其中 291,140 班。PCA 使用 11 個連續變數，分別在各策略內標準化；機場、航空公司等類別僅供篩選。條件式熱卡顯示固定種子的第一份結果。</p><p class="note">上方指標、機場表與機場圖依完整分析資料計算；散布圖顯示固定抽取的 18,000 班以維持操作流暢。手動框選摘要只涵蓋畫面上的點；第 5 個預設操作另顯示相同邊界的全資料摘要。負荷量圖顯示單位特徵向量係數，滑過長條可查看相關負荷量。</p></details>
+<footer>資料來源：<a href="https://nycflights13.tidyverse.org/reference/flights.html">nycflights13 航班資料</a>與 <a href="https://nycflights13.tidyverse.org/reference/weather.html">逐時天氣資料</a>。分析涵蓋 2013 年 JFK、LGA、EWR 出發航班；相關方法與敏感度結果見專案報告。</footer>
+</main><script>const DATA=/*DATA_PAYLOAD*/;</script><script>/*APPLICATION*/</script></body></html>

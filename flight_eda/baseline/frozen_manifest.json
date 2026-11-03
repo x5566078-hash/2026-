@@ -1,0 +1,16 @@
+{
+  "frozen_at": "2026-10-26T09:48:47.864073+00:00",
+  "files": {
+    "baseline/ai_output.txt": "9e61a7902c3687ea320864c18f177cd2d4a276aff2f9e8f57b3cc66e8365fef9",
+    "baseline/airports.csv": "77f9f2e2d8b4d6185654531cbf8084732670d54b21acd497b78b36ca84d09cc3",
+    "baseline/baseline_distributions.png": "a3539d2c7620966f7e54bebc4809fb2ddad90086bd6ac499acf359460210a332",
+    "baseline/baseline_pca.png": "933e113cf304473e8fe593395f9cd85328d49ee294d5206881a892330832ad38",
+    "baseline/correlations.csv": "74d9d02f49bc6e2df350cee75ab7e8142600d2372cfeee0bc06d681ce1b6f08d",
+    "baseline/descriptive.csv": "6ee034bff7918a278a54d268e46842929f8ec4e8dfdd4f459cc2b3a8e4e14eeb",
+    "baseline/missing.csv": "df00338b15376df0f4758fbf25c6122a6f334d15478a6f24631ff62d208e84d0",
+    "baseline/pca_vectors.csv": "464511d0b31d4aa9e366e2e86adcca7dd74a6d69844627938c5847d3979b4029",
+    "baseline/prompt.txt": "d7c6027b2f887ba8bfacf2a113b93f061f34caeb1fc37984fac4ea6466a5ac23",
+    "baseline/statistics.json": "674845d527f981b8e41b0c9b2ef8ac66becba3c0cd59e937d03c2ae4dc06c1f7",
+    "src/baseline.py": "ac77e3104ff59389cacfa8cbacc336e7b7023aed86f5add610301a5f8582afd3"
+  }
+}
