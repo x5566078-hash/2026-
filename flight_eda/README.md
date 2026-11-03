@@ -1,6 +1,6 @@
 # 紐約航班：缺失值處理與 PCA 敏感度分析
 
-這是題目 E 的可重現作業包。原始資料、程式、AI 初版、正式報告及操作紀錄均已保存。
+這是題目 E 的可重現作業專案。GitHub 版本包含程式、Notebook、AI 初版、正式 PDF 與六張操作快照；**大型原始 CSV 和衍生資料未放在此 GitHub 版本中**，可使用 `src/download_data.py` 下載並檢查雜湊。
 
 **核心問題：缺失值的處理方式會不會改變 PCA 看到的結構？** 正文依老師要求依序為：
 1. AI 基準報表（完整提示詞與原始輸出在附錄 A）；
@@ -14,6 +14,14 @@
 ### R 版本（不需額外 R 套件）
 
 從 `flight_eda` 資料夾執行 `Rscript analysis.R`。程式以中文註解說明原始缺失與合併未配對、CCA／逐時均值／條件熱卡、標準化 PCA、共同航班分數比較與固定尺度檢查；表格及三張圖寫入 `output/r/`，不覆蓋 Python 產物。R 程式負責報告第 2–4 部分的核心計算；第 1 部分封存 AI 初版及第 5 部分反思仍在現有 PDF 與 `baseline/`、`docs/reflection.txt`。R 與 Python 的隨機數產生器不同，因此熱卡抽樣及其 PCA 數值會略有差異，CCA 與均值法可直接對照。
+
+
+## GitHub 版本的檔案範圍與驗證界線
+
+- 這份 GitHub 版本未包含 `data/raw/flights.csv`、`data/raw/weather.csv` 及大型 `data/derived/`、`output/interactive/`，請以 `bash reproduce_local.sh` 重建；請勿將下載腳本視為已通過全新環境的實測。
+- GitHub 目前有 `output/pdf/`、`output/screenshots/`、`output/submission/`，**沒有** `output/presentation/`、`docs/`、`assets/` 與 `完成互動截圖.command`；README 上述提及的文件是原始本機完整作業包的一部分，不應當作已上傳的 GitHub 檔案。簡報可另外作為繳交附件。
+- `output/screenshots/` 是分析程式輸出的篩選／框選快照，不是已人工操作的瀏覽器畫面；已發布 Dashboard 的首頁可開啟，但 hover、brushing 等視覺互動仍需實際檢查。
+- **重現起點**：`python3 -m venv .venv` → `source .venv/bin/activate` → `python -m pip install -r requirements.txt` → `bash reproduce_local.sh`。PDF 建置可能需要本機可用的中文字型；若因字型失敗，數值結果與 Notebook 可分開核對。
 
 ## 先開哪個檔案
 
@@ -54,25 +62,24 @@
 
 ## 一般環境重跑
 
-建議 **Python 3.11**。原始資料已附上，分析可離線執行；第一次安裝套件需網路。
+建議 **Python 3.11**。本 GitHub 版本未附大型原始 CSV，首次重建需要連網下載固定版本資料；下載完成且檢查通過後，後續統計運算可離線執行。
 
 ```bash
 cd flight_eda
 python3.11 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
-python run_all.py
-python src/validate_results.py
-node src/check_interactive.cjs
+bash reproduce_local.sh
+# 可選：如果安裝 Node.js，另可執行 node src/check_interactive.cjs
 ```
 
-`node` 僅用於最後的互動邏輯檢查，不是計算 PCA 的必要依賴。`run_all.py` 會生成分析結果、操作圖、互動 HTML、實際執行的 notebook 與報告。Notebook 重現也會再跑分析，因此全包重建會重複部分工作，以確保 notebook 的輸出真的執行過。
+`node` 僅用於最後的互動邏輯檢查，不是計算 PCA 的必要依賴。`reproduce_local.sh` 會依序下載／核對資料、重建分析結果、操作圖、互動 HTML、Notebook、PDF，並執行驗證。Notebook 重現也會再跑分析，因此全包重建會重複部分工作，以確保 notebook 的輸出真的執行過。
 
 PDF 需要中文 TrueType 字型。macOS 自動使用 `/System/Library/Fonts/Supplemental/Arial Unicode.ttf`。其他系統可將具繁體中文字形的 TrueType 字型放到 `assets/NotoSansTC-Regular.ttf`。程式不會下載或散布系統專有字型；環境不同時排版可能略有差異，應再次檢查頁數。
 
 ### 這台電腦的既有環境
 
-本次科學計算與 notebook 使用 `/opt/anaconda3/bin/python`（Python 3.11.7）；PDF 使用 Codex 隨附的 Python 3.12 / ReportLab 4.4.9。以下腳本會偵測這兩個現有環境，無需額外安裝：
+原始作者使用過 `/opt/anaconda3/bin/python` 及特定 PDF 執行環境；**這些路徑並非其他電腦的必要條件**。新版腳本優先使用目前啟用的虛擬環境 Python，也可用 `EDA_PYTHON` 指定：
 
 ```bash
 cd flight_eda
