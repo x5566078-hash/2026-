@@ -19,7 +19,7 @@
 ## GitHub 版本的檔案範圍與驗證界線
 
 - 這份 GitHub 版本未包含 `data/raw/flights.csv`、`data/raw/weather.csv` 及大型 `data/derived/`、`output/interactive/`，請以 `bash reproduce_local.sh` 重建；請勿將下載腳本視為已通過全新環境的實測。
-- GitHub 目前有 `output/pdf/`、`output/screenshots/`、`output/submission/`，**沒有** `output/presentation/`、`docs/`、`assets/` 與 `完成互動截圖.command`；README 上述提及的文件是原始本機完整作業包的一部分，不應當作已上傳的 GitHub 檔案。簡報可另外作為繳交附件。
+- GitHub 目前有 `output/pdf/`、`output/screenshots/`、`output/submission/`，並已補入重現必要的 `docs/reflection.txt` 與 `docs/dashboard_publication.json`；但**沒有** `output/presentation/`、`assets/`、`完成互動截圖.command` 以及 README 所提的其他 `docs/` 指南。那些文件屬於本機完整作業包，不能當作已上傳的 GitHub 檔案。簡報可另外作為繳交附件。
 - `output/screenshots/` 是分析程式輸出的篩選／框選快照，不是已人工操作的瀏覽器畫面；已發布 Dashboard 的首頁可開啟，但 hover、brushing 等視覺互動仍需實際檢查。
 - **重現起點**：`python3 -m venv .venv` → `source .venv/bin/activate` → `python -m pip install -r requirements.txt` → `bash reproduce_local.sh`。PDF 建置可能需要本機可用的中文字型；若因字型失敗，數值結果與 Notebook 可分開核對。
 
