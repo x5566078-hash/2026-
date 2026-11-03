@@ -1,0 +1,3 @@
+[build]
+  command = "cp flight_eda/output/interactive/flight_explorer.html flight_eda/output/interactive/index.html"
+  publish = "flight_eda/output/interactive"
